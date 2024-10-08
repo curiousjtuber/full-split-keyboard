@@ -10,13 +10,12 @@ const points = {
                 "outer1": null
             },
             "rows": {
-                "ctrl.asym": "right",
-                "bottom.asym": "right",
-                "home.asym": "right",
-                "top.asym": "right",
-                "num.asym": "right",
+                "ctrl": null,
+                "bottom": null,
+                "home": null,
+                "top": null,
+                "num": null,
                 "fn": {
-                    "asym": "right",
                     "shift": [0, tab_gap]
                 }
             }
@@ -92,7 +91,7 @@ const points = {
 
 const subkeys = {
     "what": "rectangle",
-    "where": true,
+    "where": "-/^rights/",
     "bound": false,
     "size": 14,
     "operation": "subtract"
@@ -106,8 +105,8 @@ const outlines = {
             "what": "polygon",
             "points": [
                 "thumbfan_furthest_thumb",
-                "outer_outer_ctrl",
-                "outer_outer_fn",
+                "rights_outermost_ctrl",
+                "rights_outermost_fn",
                 "matrix_middle_fn",
                 "matrix_inner_fn"
             ],
@@ -131,10 +130,19 @@ const outlines = {
         },
         "subkeys": subkeys
     },
-    "test": {
+    "test_left": {
         "test": {
             "what": "rectangle",
-            "where": true,
+            "where": "-/^mirror/",
+            "size": 33,
+            "bevel": 5
+        },
+        "subkeys": subkeys
+    },
+    "test_right": {
+        "test": {
+            "what": "rectangle",
+            "where": "/^mirror/",
             "size": 33,
             "bevel": 5
         },
@@ -156,9 +164,15 @@ const cases = {
             "extrude": extrude
         }
     ],
-    "test": [
+    "test_left": [
         {
-            "name": "test",
+            "name": "test_left",
+            "extrude": extrude
+        }
+    ],
+    "test_right": [
+        {
+            "name": "test_right",
             "extrude": extrude
         }
     ]
