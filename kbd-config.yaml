@@ -1,0 +1,79 @@
+points:
+  zones:
+    rights:
+      columns:
+        outer2:
+        outer1:
+      rows:
+        ctrl.asym: clone
+        bottom.asym: clone
+        home.asym: clone
+        top.asym: clone
+        num.asym: clone
+        fn.asym: clone
+    outer:
+      anchor:
+        ref: rights_outer1_ctrl
+        shift: [19, 0]
+      columns:
+        outer:
+      rows:
+        ctrl:
+        bottom:
+        home:
+        top:
+        num:
+        fn:
+    matrix:
+      anchor:
+        ref: outer_outer_bottom
+        shift: [19, 0]
+      columns:
+        pinky:
+        ring.key.stagger: 9
+        middle.key.stagger: 5
+        index.key.stagger: -5
+        inner.key.stagger: 0
+      rows:
+        bottom:
+        home:
+        top:
+        num:
+        fn:
+    thumbfan:
+      anchor:
+        ref: matrix_inner_bottom
+        shift: [-45, -21]
+      columns:
+        nearest:
+        near:
+        home.key:
+          spread: 21.25
+          splay: -28
+          origin: [-11.75, -9]
+        far.key:
+          spread: 21.25
+          splay: -28
+          origin: [-9.5, -9]
+      rows:
+        thumb:
+  mirror:
+    ref: matrix_index_num
+    distance: 120
+outlines:
+  outline:
+    main:
+      what: rectangle
+      where: true
+      size: 30
+      bevel: 2
+    min:
+      what: rectangle
+      where: true
+      bound: false
+      size: 14
+      operation: subtract
+cases:
+  board:
+    - name: outline
+      extrude: 3
