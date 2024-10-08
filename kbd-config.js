@@ -26,7 +26,8 @@ const points = {
                 "shift": [u, 0]
             },
             "columns": {
-                "outer": null
+                "outer": null,
+                "pinky": null,
             },
             "rows": {
                 "ctrl": null,
@@ -41,11 +42,10 @@ const points = {
         },
         "matrix": {
             "anchor": {
-                "ref": "outer_outer_bottom",
+                "ref": "outer_pinky_bottom",
                 "shift": [u, 0]
             },
             "columns": {
-                "pinky": null,
                 "ring.key.stagger": 11,
                 "middle.key.stagger": 5,
                 "index.key.stagger": -5,
@@ -133,7 +133,7 @@ const outlines = {
     "test_left": {
         "test": {
             "what": "rectangle",
-            "where": "-/^mirror/",
+            "where": "-/(^mirror)|(^rights)/",
             "size": 33,
             "bevel": 5
         },
