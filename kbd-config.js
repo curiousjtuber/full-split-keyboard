@@ -114,6 +114,11 @@ const outlines = {
             "expand": expand,
             "joints": joints
         },
+        "wrist": {
+            "what": "circle",
+            "where": "thumbfan_nearest_thumb",
+            "radius": "70"
+        },
         "subkeys": subkeys
     },
     "upper_right": {
@@ -128,6 +133,11 @@ const outlines = {
             ],
             "expand": expand,
             "joints": joints
+        },
+        "wrist": {
+            "what": "circle",
+            "where": "mirror_thumbfan_nearest_thumb",
+            "radius": "70"
         },
         "subkeys": subkeys
     },
