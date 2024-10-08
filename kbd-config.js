@@ -151,32 +151,18 @@ const outlines = {
 }
 
 const extrude = 1.5
-const cases = {
-    "upper_left": [
-        {
-            "name": "upper_left",
-            "extrude": extrude
-        }
-    ],
-    "upper_right": [
-        {
-            "name": "upper_right",
-            "extrude": extrude
-        }
-    ],
-    "test_left": [
-        {
-            "name": "test_left",
-            "extrude": extrude
-        }
-    ],
-    "test_right": [
-        {
-            "name": "test_right",
-            "extrude": extrude
-        }
-    ]
+var cases = {}
+for (const outline in outlines) {
+    if (Object.hasOwn(outlines, outline)) {
+        cases[outline] = [
+            {
+                "name": outline,
+                "extrude": extrude
+            }
+        ]
+    }
 }
+
 
 let kbd_config = {
     "points": points,
