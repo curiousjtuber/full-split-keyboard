@@ -1,33 +1,30 @@
+let tab_gap = 5
+let u = 19
 let kbd_config = {
     "points": {
         "zones": {
             "rights": {
                 "columns": {
+                    "outer3": null,
                     "outer2": null,
                     "outer1": null
                 },
                 "rows": {
-                    "ctrl.asym": "clone",
-                    "bottom.asym": "clone",
-                    "home.asym": "clone",
-                    "top.asym": "clone",
-                    "num.asym": "clone",
+                    "ctrl.asym": "right",
+                    "bottom.asym": "right",
+                    "home.asym": "right",
+                    "top.asym": "right",
+                    "num.asym": "right",
                     "fn": {
-                        "asym": "clone",
-                        "shift": [
-                            0,
-                            5
-                        ]
+                        "asym": "right",
+                        "shift": [0, tab_gap]
                     }
                 }
             },
             "outer": {
                 "anchor": {
                     "ref": "rights_outer1_ctrl",
-                    "shift": [
-                        19,
-                        0
-                    ]
+                    "shift": [u, 0]
                 },
                 "columns": {
                     "outer": null
@@ -39,20 +36,14 @@ let kbd_config = {
                     "top": null,
                     "num": null,
                     "fn": {
-                        "shift": [
-                            0,
-                            5
-                        ]
+                        "shift": [0, tab_gap]
                     }
                 }
             },
             "matrix": {
                 "anchor": {
                     "ref": "outer_outer_bottom",
-                    "shift": [
-                        19,
-                        0
-                    ]
+                    "shift": [u, 0]
                 },
                 "columns": {
                     "pinky": null,
@@ -67,39 +58,25 @@ let kbd_config = {
                     "top": null,
                     "num": null,
                     "fn": {
-                        "shift": [
-                            0,
-                            5
-                        ]
+                        "shift": [0, tab_gap]
                     }
                 }
             },
             "thumbfan": {
                 "anchor": {
                     "ref": "matrix_inner_bottom",
-                    "shift": [
-                        -19,
-                        -21
-                    ]
+                    "shift": [-19, -21]
                 },
                 "columns": {
-                    "nearest": null,
                     "near": null,
-                    "home.key": {
-                        "spread": 19,
-                        "splay": -35,
-                        "origin": [
-                            -11.75,
-                            -9
-                        ]
-                    },
+                    "home": null,
                     "far.key": {
-                        "spread": 19,
-                        "splay": -35,
-                        "origin": [
-                            -9.5,
-                            -9
-                        ]
+                        "shift": [-u + 17.5, -16],
+                        "rotate": -55
+                    },
+                    "furthest.key": {
+                        "shift": [-u + 4, -16 - 22],
+                        "rotate": -80
                     }
                 },
                 "rows": {
@@ -108,18 +85,41 @@ let kbd_config = {
             }
         },
         "mirror": {
-            "ref": "matrix_index_num",
-            "distance": 160
+            "ref": "thumbfan_furthest_thumb",
+            "distance": 50
         }
     },
     "outlines": {
-        "outline": {
-            "main": {
-                "what": "rectangle",
-                "where": true,
-                "size": 33,
-                "bevel": 3
+        "upper": {
+            "poly_left": {
+                "what": "polygon",
+                "points": [
+                    "thumbfan_furthest_thumb",
+                    "outer_outer_ctrl",
+                    "outer_outer_fn",
+                    "matrix_middle_fn",
+                    "matrix_inner_fn"
+                ],
+                //"expand": 20
             },
+            "poly_right": {
+                "what": "polygon",
+                "points": [
+                    "mirror_thumbfan_furthest_thumb",
+                    "mirror_rights_outer3_ctrl",
+                    "mirror_rights_outer3_fn",
+                    "mirror_matrix_middle_fn",
+                    "mirror_matrix_inner_fn"
+                ],
+                "expand": 17,
+                "joints": 2
+            },
+            // "main": {
+            //   "what": "rectangle",
+            //   "where": true,
+            //   "size": 33,
+            //   "bevel": 5
+            // },
             "min": {
                 "what": "rectangle",
                 "where": true,
@@ -130,9 +130,9 @@ let kbd_config = {
         }
     },
     "cases": {
-        "board4": [
+        "upper6": [
             {
-                "name": "outline",
+                "name": "upper",
                 "extrude": 1.5
             }
         ]
