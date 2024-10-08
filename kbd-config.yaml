@@ -47,20 +47,31 @@ points:
     thumbfan:
       anchor:
         ref: matrix_inner_bottom
-        shift: [-26, -21]
+        shift: [-19, -21]
       columns:
         nearest:
         near:
         home.key:
           spread: 19
-          splay: -28
+          splay: -35
+          #shift: [3, -6]
           origin: [-11.75, -9]
         far.key:
           spread: 19
-          splay: -28
+          splay: -35
+          #shift: [7, -11]
           origin: [-9.5, -9]
       rows:
         thumb:
+    #lowthumb:
+    #  anchor:
+    #    ref: thumbfan_nearest_thumb
+    #    shift: [0, -19]
+    #  columns:
+    #    lo1:
+    #    lo2:
+    #  rows:
+    #    thumb:
   mirror:
     ref: matrix_index_num
     distance: 160
@@ -78,6 +89,6 @@ outlines:
       size: 14
       operation: subtract
 cases:
-  board3:
+  board4:
     - name: outline
       extrude: 1.5
