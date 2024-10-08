@@ -10,7 +10,9 @@ points:
         home.asym: clone
         top.asym: clone
         num.asym: clone
-        fn.asym: clone
+        fn:
+          asym: clone
+          shift: [0, 5]
     outer:
       anchor:
         ref: rights_outer1_ctrl
@@ -24,13 +26,14 @@ points:
         top:
         num:
         fn:
+          shift: [0, 5]
     matrix:
       anchor:
         ref: outer_outer_bottom
         shift: [19, 0]
       columns:
         pinky:
-        ring.key.stagger: 9
+        ring.key.stagger: 6
         middle.key.stagger: 5
         index.key.stagger: -5
         inner.key.stagger: 0
@@ -40,33 +43,34 @@ points:
         top:
         num:
         fn:
+          shift: [0, 5]
     thumbfan:
       anchor:
         ref: matrix_inner_bottom
-        shift: [-45, -21]
+        shift: [-26, -21]
       columns:
         nearest:
         near:
         home.key:
-          spread: 21.25
+          spread: 19
           splay: -28
           origin: [-11.75, -9]
         far.key:
-          spread: 21.25
+          spread: 19
           splay: -28
           origin: [-9.5, -9]
       rows:
         thumb:
   mirror:
     ref: matrix_index_num
-    distance: 120
+    distance: 160
 outlines:
   outline:
     main:
       what: rectangle
       where: true
-      size: 30
-      bevel: 2
+      size: 33
+      bevel: 3
     min:
       what: rectangle
       where: true
@@ -74,6 +78,6 @@ outlines:
       size: 14
       operation: subtract
 cases:
-  board:
+  board3:
     - name: outline
-      extrude: 3
+      extrude: 1.5
