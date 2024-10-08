@@ -90,9 +90,18 @@ const points = {
     }
 }
 
+const subkeys = {
+    "what": "rectangle",
+    "where": true,
+    "bound": false,
+    "size": 14,
+    "operation": "subtract"
+}
 
+const expand = 17
+const joints = 2
 const outlines = {
-    "upper": {
+    "upper_left": {
         "poly_left": {
             "what": "polygon",
             "points": [
@@ -102,8 +111,12 @@ const outlines = {
                 "matrix_middle_fn",
                 "matrix_inner_fn"
             ],
-            //"expand": 20
+            "expand": expand,
+            "joints": joints
         },
+        "subkeys": subkeys
+    },
+    "upper_right": {
         "poly_right": {
             "what": "polygon",
             "points": [
@@ -113,30 +126,40 @@ const outlines = {
                 "mirror_matrix_middle_fn",
                 "mirror_matrix_inner_fn"
             ],
-            "expand": 17,
-            "joints": 2
+            "expand": expand,
+            "joints": joints
         },
-        // "main": {
-        //   "what": "rectangle",
-        //   "where": true,
-        //   "size": 33,
-        //   "bevel": 5
-        // },
-        "min": {
+        "subkeys": subkeys
+    },
+    "test": {
+        "test": {
             "what": "rectangle",
             "where": true,
-            "bound": false,
-            "size": 14,
-            "operation": "subtract"
-        }
+            "size": 33,
+            "bevel": 5
+        },
+        "subkeys": subkeys
     }
 }
 
+const extrude = 1.5
 const cases = {
-    "upper6": [
+    "upper_left": [
         {
-            "name": "upper",
-            "extrude": 1.5
+            "name": "upper_left",
+            "extrude": extrude
+        }
+    ],
+    "upper_right": [
+        {
+            "name": "upper_right",
+            "extrude": extrude
+        }
+    ],
+    "test": [
+        {
+            "name": "test",
+            "extrude": extrude
         }
     ]
 }
