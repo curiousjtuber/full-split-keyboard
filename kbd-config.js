@@ -139,6 +139,15 @@ const outlines = {
         },
         "subkeys": subkeys
     },
+    "test_left_tilt": {
+        "test": {
+            "what": "rectangle",
+            "where": "-/(^mirror)/",
+            "size": 33,
+            "bevel": 5
+        },
+        "subkeys": subkeys
+    },
     "test_right": {
         "test": {
             "what": "rectangle",
