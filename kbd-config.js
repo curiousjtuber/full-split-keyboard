@@ -47,7 +47,7 @@ const points = {
             },
             "columns": {
                 "pinky": null,
-                "ring.key.stagger": 6,
+                "ring.key.stagger": 11,
                 "middle.key.stagger": 5,
                 "index.key.stagger": -5,
                 "inner.key.stagger": 0
