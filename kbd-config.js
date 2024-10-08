@@ -64,9 +64,10 @@ const points = {
         "thumbfan": {
             "anchor": {
                 "ref": "matrix_inner_bottom",
-                "shift": [-19, -21]
+                "shift": [-38, -21]
             },
             "columns": {
+                "nearest": null,
                 "near": null,
                 "home": null,
                 "far.key": {
