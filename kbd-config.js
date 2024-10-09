@@ -141,8 +141,14 @@ const left_outline = [
     "rights_outer1_ctrl",
     "rights_outermost_ctrl",
     "rights_outermost_fn",
+    "outer_pinky_fn",
+    "matrix_ring_fn",
     "matrix_middle_fn",
-    "matrix_inner_fn"
+    "matrix_index_fn",
+    "matrix_inner_fn",
+    "matrix_inner_bottom",
+    "thumbfan_home_thumb",
+    "thumbfan_far_thumb"
 ]
 
 const right_outline = left_outline.map((p) => `mirror_${p}`)
