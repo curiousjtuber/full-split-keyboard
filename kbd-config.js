@@ -38,6 +38,24 @@ const points = {
                 }
             }
         },
+        left: {
+            "key.asym": "left",
+            anchor: {
+                shift: [u-6, tab_gap/2.0]
+            },
+            columns: {
+                c1: null,
+                c2: null
+            },
+            rows: {
+                r1: null,
+                r2: null,
+                r3: null,
+                r4: null,
+                r5: null,
+                r6: null
+            }
+        },
         outer: {
             anchor: {
                 ref: "rights_outer1_ctrl",
