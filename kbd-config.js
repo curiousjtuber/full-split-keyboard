@@ -1,8 +1,26 @@
 const tab_gap = 5
 const u = 19
 
+const wrist_y = -2.7*u
 const points = {
     zones: {
+        refs: {
+            columns: {
+                pinky: {
+                    key: {
+                        shift: [4*u, wrist_y]
+                    }
+                },
+                thumb: {
+                    key: {
+                        shift: [7*u, wrist_y]
+                    }
+                }
+            },
+            rows: {
+                low: null
+            }
+        },
         rights: {
             columns: {
                 outermost: null,
@@ -92,59 +110,50 @@ const points = {
 
 const subkeys = {
     what: "rectangle",
-    where: "-/^rights/",
+    where: "-/(refs)|(^rights)/",
     bound: false,
     size: 14,
     operation: "subtract"
 }
 
+const left_outline = [
+    "thumbfan_furthest_thumb",
+    "refs_thumb_low",
+    "refs_pinky_low",
+    "rights_outer1_ctrl",
+    "rights_outermost_ctrl",
+    "rights_outermost_fn",
+    "matrix_middle_fn",
+    "matrix_inner_fn"
+]
+
+const right_outline = left_outline.map((p) => `mirror_${p}`)
+
 const expand = 17
-const joints = 2
+const joints = 0
 const outlines = {
     upper_left: {
         poly_left: {
             what: "polygon",
-            points: [
-                "thumbfan_furthest_thumb",
-                "rights_outermost_ctrl",
-                "rights_outermost_fn",
-                "matrix_middle_fn",
-                "matrix_inner_fn"
-            ],
+            points: left_outline,
             expand: expand,
             joints: joints
-        },
-        wrist: {
-            what: "circle",
-            where: "thumbfan_nearest_thumb",
-            radius: 70
         },
         subkeys: subkeys
     },
     upper_right: {
         poly_right: {
             what: "polygon",
-            points: [
-                "mirror_thumbfan_furthest_thumb",
-                "mirror_rights_outermost_ctrl",
-                "mirror_rights_outermost_fn",
-                "mirror_matrix_middle_fn",
-                "mirror_matrix_inner_fn"
-            ],
+            points: right_outline,
             expand: expand,
             joints: joints
-        },
-        wrist: {
-            what: "circle",
-            where: "mirror_thumbfan_nearest_thumb",
-            radius: 70
         },
         subkeys: subkeys
     },
     test_left: {
         test: {
             what: "rectangle",
-            where: "-/(^mirror)|(^rights)/",
+            where: "-/(refs)|(^mirror)|(^rights)/",
             size: 33,
             bevel: 5
         },
@@ -153,7 +162,7 @@ const outlines = {
     test_left_tilt: {
         test: {
             what: "rectangle",
-            where: "-/(^mirror)/",
+            where: "-/(refs)|(^mirror)/",
             size: 33,
             bevel: 5
         },
@@ -162,7 +171,7 @@ const outlines = {
     test_right: {
         test: {
             what: "rectangle",
-            where: "/^mirror/",
+            where: [["/^mirror/", "-/refs/"]],
             size: 33,
             bevel: 5
         },
