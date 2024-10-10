@@ -208,8 +208,20 @@ const UPPER_OUTLINES = {
     }
 }
 
+const OUTER_THICK = 1.0
+const INNER_THICK = 1.0
+
 const OUTLINES = {
-    ...UPPER_OUTLINES
+    ...UPPER_OUTLINES,
+    outer_left: {
+        poly_left: genOutline(LEFT_OUTLINE_POINTS, UPPER_EXPAND + OUTER_THICK, "add")
+    },
+    base_left: {
+        poly_left: genOutline(LEFT_OUTLINE_POINTS, UPPER_EXPAND, "add")
+    },
+    inner_left: {
+        poly_left: genOutline(LEFT_OUTLINE_POINTS, UPPER_EXPAND - INNER_THICK, "add"),
+    }
 }
 
 const UPPER_EXTRUDE = 1.5
@@ -229,9 +241,29 @@ function genUpperCases() {
     return upper_cases
 }
 
+const CASE_HEIGHT = 17
+const BASE_EXTRUDE = 2
 
 const CASES = {
-    ...genUpperCases()
+    ...genUpperCases(),
+    case_left: [
+        {
+            name: "outer_left",
+            extrude: CASE_HEIGHT
+        },
+        {
+            name: "base_left",
+            extrude: UPPER_EXTRUDE,
+            operation: "subtract",
+            shift: [0, 0, CASE_HEIGHT-UPPER_EXTRUDE]
+        },
+        {
+            name: "inner_left",
+            extrude: CASE_HEIGHT-BASE_EXTRUDE,
+            operation: "subtract",
+            shift: [0, 0, BASE_EXTRUDE]
+        }
+    ]
 }
 
 return {
