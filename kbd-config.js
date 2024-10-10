@@ -1,7 +1,30 @@
-const u = 19 // syntaxtic sugar
+// Syntaxtic sugar
+const u = 19
+
+///////////////
+// Parameters
 
 const TAB_GAP = 5
 const WRIST_Y = -2.7*u
+
+const COVER_EXPAND = 17
+// Expand "joints" treatment type
+const J_ROUND = 0
+const J_POINTY = 1
+const J_BEVELED = 2
+const COVER_JOINTS = J_ROUND
+
+const OUTER_EXPAND = 1.0
+const INNER_EXPAND = 1.0
+
+const COVER_HEIGHT = 1.5
+
+const CASE_HEIGHT = 17
+const FLOOR_HEIGHT = 2
+
+////////////////
+// Components
+
 const POINTS = {
     zones: {
         refs: {
@@ -154,31 +177,27 @@ const LEFT_OUTLINE_POINTS = [
 // Call toReversed() to prevent openjscad error
 const RIGHT_OUTLINE_POINTS = LEFT_OUTLINE_POINTS.map((p) => `mirror_${p}`).toReversed()
 
-const UPPER_EXPAND = 17
-const JOINTS = 0
-
 function genOutline(points, expand) {
     return {
         what: "polygon",
         points: points,
         expand: expand,
-        joints: JOINTS
+        joints: COVER_JOINTS
     }
 }
 
-const MAIN_UPPER_OUTLINES = {
-    upper_left: {
-        poly_left: genOutline(LEFT_OUTLINE_POINTS, UPPER_EXPAND),
+const COVER_OUTLINES = {
+    cover_left: {
+        poly_left: genOutline(LEFT_OUTLINE_POINTS, COVER_EXPAND),
         subkeys: SUBTRACT_KEYS
     },
-    upper_right: {
-        poly_right: genOutline(RIGHT_OUTLINE_POINTS, UPPER_EXPAND),
+    cover_right: {
+        poly_right: genOutline(RIGHT_OUTLINE_POINTS, COVER_EXPAND),
         subkeys: SUBTRACT_KEYS
     }, 
 }
 
-const UPPER_OUTLINES = {
-    ...MAIN_UPPER_OUTLINES,
+const TEST_OUTLINES = {
     test_left: {
         test: {
             what: "rectangle",
@@ -208,49 +227,42 @@ const UPPER_OUTLINES = {
     }
 }
 
-const OUTER_THICK = 1.0
-const INNER_THICK = 1.0
-
 function genCaseOutlines(side, points) {
     var obj = {}
     obj[`outer_${side}`] = {
-        poly: genOutline(points, UPPER_EXPAND + OUTER_THICK)
+        poly: genOutline(points, COVER_EXPAND + OUTER_EXPAND)
     }
     obj[`base_${side}`] = {
-        poly: genOutline(points, UPPER_EXPAND)
+        poly: genOutline(points, COVER_EXPAND)
     }
     obj[`inner_${side}`] = {
-        poly: genOutline(points, UPPER_EXPAND - INNER_THICK)
+        poly: genOutline(points, COVER_EXPAND - INNER_EXPAND)
     }
     return obj
 
 }
 
 const OUTLINES = {
-    ...UPPER_OUTLINES,
+    ...COVER_OUTLINES,
     ...genCaseOutlines("left", LEFT_OUTLINE_POINTS),
-    ...genCaseOutlines("right", RIGHT_OUTLINE_POINTS)
+    ...genCaseOutlines("right", RIGHT_OUTLINE_POINTS),
+    ...TEST_OUTLINES
 }
 
-const UPPER_EXTRUDE = 1.5
-
-function genUpperCases() {
-    var upper_cases = {}
-    for (const outline_name in UPPER_OUTLINES) {
-        if (Object.hasOwn(OUTLINES, outline_name)) {
-            upper_cases[outline_name] = [
+function genCoverCases() {
+    var coverCases = {}
+    for (const outlineName in COVER_OUTLINES) {
+        if (Object.hasOwn(OUTLINES, outlineName)) {
+            coverCases[outlineName] = [
                 {
-                    name: outline_name,
-                    extrude: UPPER_EXTRUDE
+                    name: outlineName,
+                    extrude: COVER_HEIGHT
                 }
             ]
         }
     }
-    return upper_cases
+    return coverCases
 }
-
-const CASE_HEIGHT = 17
-const BASE_EXTRUDE = 2
 
 function genCase(side) {
     return [
@@ -260,21 +272,21 @@ function genCase(side) {
         },
         {
             name: `base_${side}`,
-            extrude: UPPER_EXTRUDE,
+            extrude: COVER_HEIGHT,
             operation: "subtract",
-            shift: [0, 0, CASE_HEIGHT-UPPER_EXTRUDE]
+            shift: [0, 0, CASE_HEIGHT-COVER_HEIGHT]
         },
         {
             name: `inner_${side}`,
-            extrude: CASE_HEIGHT-BASE_EXTRUDE,
+            extrude: CASE_HEIGHT-FLOOR_HEIGHT,
             operation: "subtract",
-            shift: [0, 0, BASE_EXTRUDE]
+            shift: [0, 0, FLOOR_HEIGHT]
         }
     ]
 }
 
 const CASES = {
-    ...genUpperCases(),
+    ...genCoverCases(),
     case_left: genCase("left"),
     case_right: genCase("right")
 }
