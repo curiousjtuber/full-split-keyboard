@@ -213,20 +213,25 @@ const OUTLINES = {
 }
 
 const UPPER_EXTRUDE = 1.5
-var upper_cases = {}
-for (const outline_name in UPPER_OUTLINES) {
-    if (Object.hasOwn(OUTLINES, outline_name)) {
-        upper_cases[outline_name] = [
-            {
-                name: outline_name,
-                extrude: UPPER_EXTRUDE
-            }
-        ]
+
+function genUpperCases() {
+    var upper_cases = {}
+    for (const outline_name in UPPER_OUTLINES) {
+        if (Object.hasOwn(OUTLINES, outline_name)) {
+            upper_cases[outline_name] = [
+                {
+                    name: outline_name,
+                    extrude: UPPER_EXTRUDE
+                }
+            ]
+        }
     }
+    return upper_cases
 }
 
+
 const CASES = {
-    ...upper_cases
+    ...genUpperCases()
 }
 
 return {
