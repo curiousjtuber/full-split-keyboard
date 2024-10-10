@@ -1,19 +1,19 @@
-const tab_gap = 5
-const u = 19
+const u = 19 // syntaxtic sugar
 
-const wrist_y = -2.7*u
-const points = {
+const TAB_GAP = 5
+const WRIST_Y = -2.7*u
+const POINTS = {
     zones: {
         refs: {
             columns: {
                 pinky: {
                     key: {
-                        shift: [4*u, wrist_y]
+                        shift: [4*u, WRIST_Y]
                     }
                 },
                 thumb: {
                     key: {
-                        shift: [7*u, wrist_y]
+                        shift: [7*u, WRIST_Y]
                     }
                 }
             },
@@ -34,14 +34,14 @@ const points = {
                 top: null,
                 num: null,
                 fn: {
-                    shift: [0, tab_gap]
+                    shift: [0, TAB_GAP]
                 }
             }
         },
         left: {
             "key.asym": "left",
             anchor: {
-                shift: [u-6, tab_gap/2.0]
+                shift: [u-6, TAB_GAP/2.0]
             },
             columns: {
                 c1: null,
@@ -72,7 +72,7 @@ const points = {
                 top: null,
                 num: null,
                 fn: {
-                    shift: [0, tab_gap]
+                    shift: [0, TAB_GAP]
                 }
             }
         },
@@ -93,7 +93,7 @@ const points = {
                 top: null,
                 num: null,
                 fn: {
-                    shift: [0, tab_gap]
+                    shift: [0, TAB_GAP]
                 }
             }
         },
@@ -126,7 +126,7 @@ const points = {
     }
 }
 
-const subkeys = {
+const SUBTRACT_KEYS = {
     what: "rectangle",
     where: "-/(refs)|(^rights)/",
     bound: false,
@@ -134,7 +134,7 @@ const subkeys = {
     operation: "subtract"
 }
 
-const left_outline = [
+const LEFT_OUTLINE_POINTS = [
     "thumbfan_furthest_thumb",
     "refs_thumb_low",
     "refs_pinky_low",
@@ -151,29 +151,34 @@ const left_outline = [
     "thumbfan_far_thumb"
 ]
 
-const right_outline = left_outline.map((p) => `mirror_${p}`)
+const RIGHT_OUTLINE_POINTS = LEFT_OUTLINE_POINTS.map((p) => `mirror_${p}`)
 
-const expand = 17
-const joints = 0
-const outlines = {
+const UPPER_EXPAND = 17
+const JOINTS = 0
+
+const MAIN_UPPER_OUTLINES = {
     upper_left: {
         poly_left: {
             what: "polygon",
-            points: left_outline,
-            expand: expand,
-            joints: joints
+            points: LEFT_OUTLINE_POINTS,
+            expand: UPPER_EXPAND,
+            joints: JOINTS
         },
-        subkeys: subkeys
+        subkeys: SUBTRACT_KEYS
     },
     upper_right: {
         poly_right: {
             what: "polygon",
-            points: right_outline,
-            expand: expand,
-            joints: joints
+            points: RIGHT_OUTLINE_POINTS,
+            expand: UPPER_EXPAND,
+            joints: JOINTS
         },
-        subkeys: subkeys
-    },
+        subkeys: SUBTRACT_KEYS
+    }, 
+}
+
+const UPPER_OUTLINES = {
+    ...MAIN_UPPER_OUTLINES,
     test_left: {
         test: {
             what: "rectangle",
@@ -181,7 +186,7 @@ const outlines = {
             size: 33,
             bevel: 5
         },
-        subkeys: subkeys
+        subkeys: SUBTRACT_KEYS
     },
     test_left_tilt: {
         test: {
@@ -190,7 +195,7 @@ const outlines = {
             size: 33,
             bevel: 5
         },
-        subkeys: subkeys
+        subkeys: SUBTRACT_KEYS
     },
     test_right: {
         test: {
@@ -199,28 +204,33 @@ const outlines = {
             size: 33,
             bevel: 5
         },
-        subkeys: subkeys
+        subkeys: SUBTRACT_KEYS
     }
 }
 
-const extrude = 1.5
-var cases = {}
-for (const outline in outlines) {
-    if (Object.hasOwn(outlines, outline)) {
-        cases[outline] = [
+const OUTLINES = {
+    ...UPPER_OUTLINES
+}
+
+const UPPER_EXTRUDE = 1.5
+var upper_cases = {}
+for (const outline_name in UPPER_OUTLINES) {
+    if (Object.hasOwn(OUTLINES, outline_name)) {
+        upper_cases[outline_name] = [
             {
-                name: outline,
-                extrude: extrude
+                name: outline_name,
+                extrude: UPPER_EXTRUDE
             }
         ]
     }
 }
 
-
-let kbd_config = {
-    points: points,
-    outlines: outlines,
-    cases: cases
+const CASES = {
+    ...upper_cases
 }
 
-return kbd_config
+return {
+    points: POINTS,
+    outlines: OUTLINES,
+    cases: CASES
+}
