@@ -156,23 +156,22 @@ const RIGHT_OUTLINE_POINTS = LEFT_OUTLINE_POINTS.map((p) => `mirror_${p}`)
 const UPPER_EXPAND = 17
 const JOINTS = 0
 
-function genOutline(points, expand, operation) {
+function genOutline(points, expand) {
     return {
         what: "polygon",
         points: points,
         expand: expand,
-        joints: JOINTS,
-        operation: operation
+        joints: JOINTS
     }
 }
 
 const MAIN_UPPER_OUTLINES = {
     upper_left: {
-        poly_left: genOutline(LEFT_OUTLINE_POINTS, UPPER_EXPAND, "add"),
+        poly_left: genOutline(LEFT_OUTLINE_POINTS, UPPER_EXPAND),
         subkeys: SUBTRACT_KEYS
     },
     upper_right: {
-        poly_right: genOutline(RIGHT_OUTLINE_POINTS, UPPER_EXPAND, "add"),
+        poly_right: genOutline(RIGHT_OUTLINE_POINTS, UPPER_EXPAND),
         subkeys: SUBTRACT_KEYS
     }, 
 }
@@ -214,13 +213,13 @@ const INNER_THICK = 1.0
 const OUTLINES = {
     ...UPPER_OUTLINES,
     outer_left: {
-        poly_left: genOutline(LEFT_OUTLINE_POINTS, UPPER_EXPAND + OUTER_THICK, "add")
+        poly_left: genOutline(LEFT_OUTLINE_POINTS, UPPER_EXPAND + OUTER_THICK)
     },
     base_left: {
-        poly_left: genOutline(LEFT_OUTLINE_POINTS, UPPER_EXPAND, "add")
+        poly_left: genOutline(LEFT_OUTLINE_POINTS, UPPER_EXPAND)
     },
     inner_left: {
-        poly_left: genOutline(LEFT_OUTLINE_POINTS, UPPER_EXPAND - INNER_THICK, "add"),
+        poly_left: genOutline(LEFT_OUTLINE_POINTS, UPPER_EXPAND - INNER_THICK),
     }
 }
 
