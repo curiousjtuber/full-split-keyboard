@@ -151,7 +151,8 @@ const LEFT_OUTLINE_POINTS = [
     "thumbfan_far_thumb"
 ]
 
-const RIGHT_OUTLINE_POINTS = LEFT_OUTLINE_POINTS.map((p) => `mirror_${p}`)
+// Call toReversed() to prevent openjscad error
+const RIGHT_OUTLINE_POINTS = LEFT_OUTLINE_POINTS.map((p) => `mirror_${p}`).toReversed()
 
 const UPPER_EXPAND = 17
 const JOINTS = 0
@@ -210,17 +211,25 @@ const UPPER_OUTLINES = {
 const OUTER_THICK = 1.0
 const INNER_THICK = 1.0
 
+function genCaseOutlines(side, points) {
+    var obj = {}
+    obj[`outer_${side}`] = {
+        poly: genOutline(points, UPPER_EXPAND + OUTER_THICK)
+    }
+    obj[`base_${side}`] = {
+        poly: genOutline(points, UPPER_EXPAND)
+    }
+    obj[`inner_${side}`] = {
+        poly: genOutline(points, UPPER_EXPAND - INNER_THICK)
+    }
+    return obj
+
+}
+
 const OUTLINES = {
     ...UPPER_OUTLINES,
-    outer_left: {
-        poly_left: genOutline(LEFT_OUTLINE_POINTS, UPPER_EXPAND + OUTER_THICK)
-    },
-    base_left: {
-        poly_left: genOutline(LEFT_OUTLINE_POINTS, UPPER_EXPAND)
-    },
-    inner_left: {
-        poly_left: genOutline(LEFT_OUTLINE_POINTS, UPPER_EXPAND - INNER_THICK),
-    }
+    ...genCaseOutlines("left", LEFT_OUTLINE_POINTS),
+    ...genCaseOutlines("right", RIGHT_OUTLINE_POINTS)
 }
 
 const UPPER_EXTRUDE = 1.5
@@ -243,26 +252,31 @@ function genUpperCases() {
 const CASE_HEIGHT = 17
 const BASE_EXTRUDE = 2
 
-const CASES = {
-    ...genUpperCases(),
-    case_left: [
+function genCase(side) {
+    return [
         {
-            name: "outer_left",
+            name: `outer_${side}`,
             extrude: CASE_HEIGHT
         },
         {
-            name: "base_left",
+            name: `base_${side}`,
             extrude: UPPER_EXTRUDE,
             operation: "subtract",
             shift: [0, 0, CASE_HEIGHT-UPPER_EXTRUDE]
         },
         {
-            name: "inner_left",
+            name: `inner_${side}`,
             extrude: CASE_HEIGHT-BASE_EXTRUDE,
             operation: "subtract",
             shift: [0, 0, BASE_EXTRUDE]
         }
     ]
+}
+
+const CASES = {
+    ...genUpperCases(),
+    case_left: genCase("left"),
+    case_right: genCase("right")
 }
 
 return {
