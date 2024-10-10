@@ -22,6 +22,8 @@ const COVER_HEIGHT = 1.5
 const CASE_HEIGHT = 17
 const FLOOR_HEIGHT = 2
 
+const PILLAR_RADIUS = 2.4
+
 ////////////////
 
 const LEFT = "left"
@@ -34,19 +36,19 @@ const POINTS = {
     zones: {
         refs: {
             columns: {
-                pinky: {
+                wrist1: {
                     key: {
                         shift: [4*u, WRIST_Y]
                     }
                 },
-                thumb: {
-                    key: {
-                        shift: [7*u, WRIST_Y]
+                wrist2: {
+                    key: { // anchor 1*u
+                        shift: [-1*u + 8*u, WRIST_Y]
                     }
                 }
             },
             rows: {
-                low: null
+                point: null
             }
         },
         rights: {
@@ -164,8 +166,8 @@ const SUBTRACT_KEYS = {
 
 const LEFT_OUTLINE_POINTS = [
     "thumbfan_furthest_thumb",
-    "refs_thumb_low",
-    "refs_pinky_low",
+    "refs_wrist2_point",
+    "refs_wrist1_point",
     "rights_outer1_ctrl",
     "rights_outermost_ctrl",
     "rights_outermost_fn",
@@ -202,6 +204,64 @@ const COVER_OUTLINES = {
     }, 
 }
 
+const PILLAR_POINTS = [
+    {
+        where: "matrix_ring_bottom",
+        shift: [0, -1*u]
+    },
+    {
+        where: "matrix_middle_num",
+        shift: [0, 0.5*u + TAB_GAP/2]
+    },
+    {
+        where: "outer_outer_home",
+        shift: [-0.5*u, 0.5*u]
+    },
+]
+
+// CircleDetail
+// - where, radius, shift
+
+const LEFT_PILLAR_DETAILS = PILLAR_POINTS.map((detail) => {
+    return {
+        where: detail.where,
+        radius: PILLAR_RADIUS,
+        shift: detail.shift
+    }
+})
+
+const RIGHT_PILLAR_DETAILS = LEFT_PILLAR_DETAILS.map((detail) => {
+    return {
+        where: `mirror_${detail.where}`,
+        radius: detail.radius,
+        shift: detail.shift
+    }
+})
+
+const SIDE_PILLARS_MAP = {
+    left: LEFT_PILLAR_DETAILS,
+    right: RIGHT_PILLAR_DETAILS
+}
+
+function makeCircle(detail) {
+    return {
+        what: "circle",
+        where: detail.where,
+        radius: detail.radius,
+        adjust: {
+            shift: detail.shift
+        }   
+    }
+}
+
+function makePillars(details) {
+    var obj = {}
+    for (idx in details) {
+        obj[`pilliar_${idx}`] = makeCircle(details[idx])
+    }
+    return obj
+}
+
 function makeCaseOutlines(side, points) {
     var obj = {}
     obj[`outer_${side}`] = {
@@ -213,6 +273,7 @@ function makeCaseOutlines(side, points) {
     obj[`inner_${side}`] = {
         polygon: makePolygon(points, COVER_EXPAND - INNER_EXPAND)
     }
+    obj[`pillars_${side}`] = makePillars(SIDE_PILLARS_MAP[side])
     return obj
 }
 
@@ -252,9 +313,13 @@ function makeCase(side) {
         },
         {
             name: `inner_${side}`,
-            extrude: CASE_HEIGHT-FLOOR_HEIGHT,
+            extrude: CASE_HEIGHT,
             operation: "subtract",
             shift: [0, 0, FLOOR_HEIGHT]
+        },
+        {
+            name: `pillars_${side}`,
+            extrude: CASE_HEIGHT-COVER_HEIGHT,
         }
     ]
     return obj
@@ -265,6 +330,8 @@ const CASES = {
     ...makeCase(LEFT),
     ...makeCase(RIGHT)
 }
+
+// console.log(OUTLINES)
 
 return {
     points: POINTS,
