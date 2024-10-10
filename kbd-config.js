@@ -197,36 +197,6 @@ const COVER_OUTLINES = {
     }, 
 }
 
-const TEST_OUTLINES = {
-    test_left: {
-        test: {
-            what: "rectangle",
-            where: "-/(refs)|(^mirror)|(^rights)/",
-            size: 33,
-            bevel: 5
-        },
-        subkeys: SUBTRACT_KEYS
-    },
-    test_left_tilt: {
-        test: {
-            what: "rectangle",
-            where: "-/(refs)|(^mirror)/",
-            size: 33,
-            bevel: 5
-        },
-        subkeys: SUBTRACT_KEYS
-    },
-    test_right: {
-        test: {
-            what: "rectangle",
-            where: [["/^mirror/", "-/refs/"]],
-            size: 33,
-            bevel: 5
-        },
-        subkeys: SUBTRACT_KEYS
-    }
-}
-
 function genCaseOutlines(side, points) {
     var obj = {}
     obj[`outer_${side}`] = {
@@ -239,14 +209,12 @@ function genCaseOutlines(side, points) {
         poly: genOutline(points, COVER_EXPAND - INNER_EXPAND)
     }
     return obj
-
 }
 
 const OUTLINES = {
     ...COVER_OUTLINES,
     ...genCaseOutlines("left", LEFT_OUTLINE_POINTS),
     ...genCaseOutlines("right", RIGHT_OUTLINE_POINTS),
-    ...TEST_OUTLINES
 }
 
 function genCoverCases() {
