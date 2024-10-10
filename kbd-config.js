@@ -12,7 +12,7 @@ const COVER_EXPAND = 17
 const J_ROUND = 0
 const J_POINTY = 1
 const J_BEVELED = 2
-const COVER_JOINTS = J_ROUND
+const JOINTS = J_ROUND
 
 const OUTER_EXPAND = 1.0
 const INNER_EXPAND = 1.0
@@ -21,6 +21,11 @@ const COVER_HEIGHT = 1.5
 
 const CASE_HEIGHT = 17
 const FLOOR_HEIGHT = 2
+
+////////////////
+
+const LEFT = "left"
+const RIGHT = "right"
 
 ////////////////
 // Components
@@ -62,7 +67,7 @@ const POINTS = {
             }
         },
         left: {
-            "key.asym": "left",
+            "key.asym": LEFT,
             anchor: {
                 shift: [u-6, TAB_GAP/2.0]
             },
@@ -177,47 +182,47 @@ const LEFT_OUTLINE_POINTS = [
 // Call toReversed() to prevent openjscad error
 const RIGHT_OUTLINE_POINTS = LEFT_OUTLINE_POINTS.map((p) => `mirror_${p}`).toReversed()
 
-function genOutline(points, expand) {
+function makePolygon(points, expand) {
     return {
         what: "polygon",
         points: points,
         expand: expand,
-        joints: COVER_JOINTS
+        joints: JOINTS
     }
 }
 
 const COVER_OUTLINES = {
     cover_left: {
-        poly_left: genOutline(LEFT_OUTLINE_POINTS, COVER_EXPAND),
+        polygon: makePolygon(LEFT_OUTLINE_POINTS, COVER_EXPAND),
         subkeys: SUBTRACT_KEYS
     },
     cover_right: {
-        poly_right: genOutline(RIGHT_OUTLINE_POINTS, COVER_EXPAND),
+        polygon: makePolygon(RIGHT_OUTLINE_POINTS, COVER_EXPAND),
         subkeys: SUBTRACT_KEYS
     }, 
 }
 
-function genCaseOutlines(side, points) {
+function makeCaseOutlines(side, points) {
     var obj = {}
     obj[`outer_${side}`] = {
-        poly: genOutline(points, COVER_EXPAND + OUTER_EXPAND)
+        polygon: makePolygon(points, COVER_EXPAND + OUTER_EXPAND)
     }
     obj[`base_${side}`] = {
-        poly: genOutline(points, COVER_EXPAND)
+        polygon: makePolygon(points, COVER_EXPAND)
     }
     obj[`inner_${side}`] = {
-        poly: genOutline(points, COVER_EXPAND - INNER_EXPAND)
+        polygon: makePolygon(points, COVER_EXPAND - INNER_EXPAND)
     }
     return obj
 }
 
 const OUTLINES = {
     ...COVER_OUTLINES,
-    ...genCaseOutlines("left", LEFT_OUTLINE_POINTS),
-    ...genCaseOutlines("right", RIGHT_OUTLINE_POINTS),
+    ...makeCaseOutlines(LEFT, LEFT_OUTLINE_POINTS),
+    ...makeCaseOutlines(RIGHT, RIGHT_OUTLINE_POINTS),
 }
 
-function genCoverCases() {
+function makeCoverCases() {
     var coverCases = {}
     for (const outlineName in COVER_OUTLINES) {
         if (Object.hasOwn(OUTLINES, outlineName)) {
@@ -232,8 +237,9 @@ function genCoverCases() {
     return coverCases
 }
 
-function genCase(side) {
-    return [
+function makeCase(side) {
+    var obj = {}
+    obj[`case_${side}`] = [
         {
             name: `outer_${side}`,
             extrude: CASE_HEIGHT
@@ -251,12 +257,13 @@ function genCase(side) {
             shift: [0, 0, FLOOR_HEIGHT]
         }
     ]
+    return obj
 }
 
 const CASES = {
-    ...genCoverCases(),
-    case_left: genCase("left"),
-    case_right: genCase("right")
+    ...makeCoverCases(),
+    ...makeCase(LEFT),
+    ...makeCase(RIGHT)
 }
 
 return {
