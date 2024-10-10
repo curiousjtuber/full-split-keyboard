@@ -156,23 +156,23 @@ const RIGHT_OUTLINE_POINTS = LEFT_OUTLINE_POINTS.map((p) => `mirror_${p}`)
 const UPPER_EXPAND = 17
 const JOINTS = 0
 
+function genOutline(points, expand, operation) {
+    return {
+        what: "polygon",
+        points: points,
+        expand: expand,
+        joints: JOINTS,
+        operation: operation
+    }
+}
+
 const MAIN_UPPER_OUTLINES = {
     upper_left: {
-        poly_left: {
-            what: "polygon",
-            points: LEFT_OUTLINE_POINTS,
-            expand: UPPER_EXPAND,
-            joints: JOINTS
-        },
+        poly_left: genOutline(LEFT_OUTLINE_POINTS, UPPER_EXPAND, "add"),
         subkeys: SUBTRACT_KEYS
     },
     upper_right: {
-        poly_right: {
-            what: "polygon",
-            points: RIGHT_OUTLINE_POINTS,
-            expand: UPPER_EXPAND,
-            joints: JOINTS
-        },
+        poly_right: genOutline(RIGHT_OUTLINE_POINTS, UPPER_EXPAND, "add"),
         subkeys: SUBTRACT_KEYS
     }, 
 }
